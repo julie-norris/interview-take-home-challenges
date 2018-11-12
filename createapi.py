@@ -103,7 +103,7 @@ class Trips():
 		return trip, 200
 
 
-	def put(self, trip):
+	def put(self, tripRequest):
 		"""the put method is used to update the details of trip request"""
 		"""Cannot modify a trip request after the deadlne and can only modify the time range + mode"""
 		parser-reqparse.RequestParser()
@@ -111,21 +111,24 @@ class Trips():
 		parser.add_argument("DateTimeRange")
 		args=parser.parse_args()
 
+		t=datetime.datetime.now()
 
-		for trip in TripRequests:
-			if DateTime.now() #is past the deadline:
-				return 'The deadline to modify trip has passed', 404
-			else:
-				trip["mode"]=args["mode"]
-				trip["selectedTimeRane"]=args["DateTimeRange"]
+		if t.hour < 15:
+	        deadline = datetime.datetime(year=t.year, month=t.month, day=t.day, hour=15, minute=0, second=0)
+	    	elif t.hour<21:
+	        deadline=datetime.datetime(year=t.year, month=t.month, day=t.day, hour=21, minute=0, second=0)
+
+		if t > deadline:
+			return 'The deadline to modify trip has passed', 404
+		else:
+			tripRequest["mode"]=args["mode"]
+			tripRequest["selectedTimeRane"]=args["DateTimeRange"]
 				
-				trip = {
-				"id":'UUID',
-				timeOpening: TimeOpening,
-				"mode": 'passenger',
-				selectedTimeRange: DateTimeRange
-				}
-			return trip, 200
+			tripRequest[id] = {
+			"mode": args["mode"],
+			selectedTimeRange: args["DateTimeRange"]
+			}
+		return tripRequest, 200
 
 
 	def delete(self, trip):
@@ -140,6 +143,7 @@ class Trips():
 	
 api.add_resource(start, "/trips/<string:trip>")
 app.run(debug=True)
+
 
 
 
