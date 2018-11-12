@@ -113,17 +113,11 @@ class Trips():
 
 		t=datetime.datetime.now()
 
-		if t.hour < 15:
-	        deadline = datetime.datetime(year=t.year, month=t.month, day=t.day, hour=15, minute=0, second=0)
-	    	elif t.hour<21:
-	        deadline=datetime.datetime(year=t.year, month=t.month, day=t.day, hour=21, minute=0, second=0)
-
-		if t > deadline:
-			return 'The deadline to modify trip has passed', 404
-		else:
-			tripRequest["mode"]=args["mode"]
-			tripRequest["selectedTimeRane"]=args["DateTimeRange"]
-				
+		if t.hour > 15 :
+	  		return 'The deadline to modify a trip for today has passed', 404
+	  	elif t.hour > 21:
+	  		return ' The deadline to modiy a trip for tomorrow AM has passed', 404
+		else:		
 			tripRequest[id] = {
 			"mode": args["mode"],
 			selectedTimeRange: args["DateTimeRange"]
