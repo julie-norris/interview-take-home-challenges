@@ -106,19 +106,18 @@ class Trips():
 
 
 	def delete(self,tripRequest):
-		""" the delete method is used to delete a request"""
+		"""the delete method is used to delete a request """
 
 		global trips
-		trips = [trip for trip in TripRequests if trip["id"] != "id"]
+		trips = [trip for trip in TripRequests if trip["id"] != id]
 		return "{} is deleted.".format(trip), 200
 
 	
-	def getRequests(self):
-		# they never mentioned a user in their data structures so all the requests mentioned above are mine
+	def getRequests(self, TripRequests):
 		# return the content of the dictionary with status 200
-
-	
-
+		for trips in TripRequests.items():
+    			return (k,v), 200
+			    
 	def getRequest(self):
 		# get request ID from URL and look it up in the dictionary
 		# error 404 if not found
